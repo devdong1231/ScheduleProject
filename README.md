@@ -2,7 +2,7 @@
 
 <details>
 <summary>ERD 설계</summary>
-
+![img.png](img.png)
 ## schedules
 
 | 컬럼명        | 타입           | PK | NULL | 설명             |
