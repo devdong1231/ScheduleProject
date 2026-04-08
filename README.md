@@ -1,6 +1,21 @@
 > # **ScheduleProject API 명세서**
 
-# 일정 생성 API
+<details>
+<summary>ERD 설계</summary>
+
+## schedules
+
+| 컬럼명        | 타입           | PK | NULL | 설명             |
+|------------|--------------|----|------|----------------|
+| scheduleId | BIGINT       | O  | X    | 일정 고유 식별자      |
+| title      | VARCHAR(255) | X  | X    | 일정 제목          |
+| contents   | TEXT         | X  | X    | 일정 내용          |
+| author     | VARCHAR(100) | X  | X    | 작성자명           |
+| password   | VARCHAR(255) | X  | X    | 수정/삭제 검증용 비밀번호 |
+| createdAt  | DATETIME     | X  | X    | 작성일            |
+| updatedAt  | DATETIME     | X  | X    | 수정일            |
+
+</details>
 
 ## 🔹 기본 정보
 
@@ -138,6 +153,7 @@ GET /api/schedules?author=홍길동
 | updatedAt  | LocalDateTime | O  | 수정한 날짜 |
 
 ### ❌ 실패 - 500 Internal Server Error
+
 ```json
 {
   "message": "서버 오류가 발생했습니다."
