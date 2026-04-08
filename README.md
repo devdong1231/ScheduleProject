@@ -1,4 +1,3 @@
-일정 제목, 일정 내용, 작성자명, 비밀번호, 작성/수정일(날짜 시간을 모두 포함한 형태)
 > # **ScheduleProject API 명세서**
 
 # 일정 생성 API
@@ -47,7 +46,7 @@ Content-Type: application/json
 
 ```json
 {
-  "id": 1,
+  "scheduleId": 1,
   "title": "오후 스크럼",
   "contents": "오후 7시 30분에 zep으로 오후 스크럼 진행",
   "author": "김유하",
@@ -56,14 +55,14 @@ Content-Type: application/json
 }
 ```
 
-| 필드명       | 타입            | 필수 | 설명     |
-|-----------|---------------|----|--------|
-| id        | Long          | O  | 고유 식별자 |
-| title     | String        | O  | 일정 제목  |
-| contents  | String        | O  | 일정 내용  |
-| author    | String        | O  | 작성자명   |
-| createdAt | LocalDateTime | O  | 생성한 날짜 |
-| updatedAt | LocalDateTime | O  | 수정한 날짜 |
+| 필드명        | 타입            | 필수 | 설명     |
+|------------|---------------|----|--------|
+| scheduleId | Long          | O  | 고유 식별자 |
+| title      | String        | O  | 일정 제목  |
+| contents   | String        | O  | 일정 내용  |
+| author     | String        | O  | 작성자명   |
+| createdAt  | LocalDateTime | O  | 생성한 날짜 |
+| updatedAt  | LocalDateTime | O  | 수정한 날짜 |
 
 <br>
 
@@ -102,14 +101,16 @@ GET /api/schedules?author=홍길동
 
 <br>
 
-## 🔹 Request
+## 🔹 Response
 
 ### Body
+
+### ✅ 성공 - 200 OK
 
 ```json
 [
   {
-    "id": 2,
+    "scheduleId": 2,
     "title": "오전 스크럼",
     "contents": "오전 10시 5분에 zep으로 오전 스크럼 진행",
     "author": "김유하",
@@ -117,7 +118,7 @@ GET /api/schedules?author=홍길동
     "updatedAt": "2026-04-08T08:40"
   },
   {
-    "id": 1,
+    "scheduleId": 1,
     "title": "오후 스크럼",
     "contents": "오후 7시 30분에 zep으로 오후 스크럼 진행",
     "author": "김유하",
@@ -125,45 +126,23 @@ GET /api/schedules?author=홍길동
     "updatedAt": "2026-04-08T16:40"
   }
 ]
-
 ```
 
-| 필드명       | 타입            | 설명     |
-|-----------|---------------|--------|
-| id        | Long          | 고유 식별자 |
-| title     | String        | 일정 제목  |
-| contents  | String        | 일정 내용  |
-| author    | String        | 작성자명   |
-| createdAt | LocalDateTime | 작성일    |
-| updatedAt | LocalDateTime | 수정일    |
+| 필드명        | 타입            | 필수 | 설명     |
+|------------|---------------|----|--------|
+| scheduleId | Long          | O  | 고유 식별자 |
+| title      | String        | O  | 일정 제목  |
+| contents   | String        | O  | 일정 내용  |
+| author     | String        | O  | 작성자명   |
+| createdAt  | LocalDateTime | O  | 생성한 날짜 |
+| updatedAt  | LocalDateTime | O  | 수정한 날짜 |
 
-<br>
-
-## 🔹 Response
-
-### ✅ 성공 - 200 OK
-
+### ❌ 실패 - 500 Internal Server Error
 ```json
 {
-  "id": 1,
-  "title": "오후 스크럼",
-  "contents": "오후 7시 30분에 zep으로 오후 스크럼 진행",
-  "author": "김유하",
-  "createdAt": "2026-04-18T16:30",
-  "updatedAt": "2026-04-18T16:30"
+  "message": "서버 오류가 발생했습니다."
 }
 ```
-
-| 필드명       | 타입            | 필수 | 설명     |
-|-----------|---------------|----|--------|
-| id        | Long          | O  | 고유 식별자 |
-| title     | String        | O  | 일정 제목  |
-| contents  | String        | O  | 일정 내용  |
-| author    | String        | O  | 작성자명   |
-| createdAt | LocalDateTime | O  | 생성한 날짜 |
-| updatedAt | LocalDateTime | O  | 수정한 날짜 |
-
-### ❌ 실패 -
 
 <br>
 
@@ -179,9 +158,9 @@ GET /api/schedules?author=홍길동
 
 ### Path Variable
 
-| 변수명 | 타입   | 설명     |
-|-----|------|--------|
-| id  | Long | 고유 식별자 |
+| 변수명        | 타입   | 설명     |
+|------------|------|--------|
+| scheduleId | Long | 고유 식별자 |
 
 ### 요청 예시
 
@@ -197,7 +176,7 @@ GET /api/schedules/1
 
 ```json
 {
-  "id": 1,
+  "scheduleId": 1,
   "title": "오후 스크럼",
   "contents": "오후 7시 30분에 zep으로 오후 스크럼 진행",
   "author": "김유하",
@@ -206,14 +185,14 @@ GET /api/schedules/1
 }
 ```
 
-| 필드명       | 타입            | 필수 | 설명     |
-|-----------|---------------|----|--------|
-| id        | Long          | O  | 고유 식별자 |
-| title     | String        | O  | 일정 제목  |
-| contents  | String        | O  | 일정 내용  |
-| author    | String        | O  | 작성자명   |
-| createdAt | LocalDateTime | O  | 생성한 날짜 |
-| updatedAt | LocalDateTime | O  | 수정한 날짜 |
+| 필드명        | 타입            | 필수 | 설명     |
+|------------|---------------|----|--------|
+| scheduleId | Long          | O  | 고유 식별자 |
+| title      | String        | O  | 일정 제목  |
+| contents   | String        | O  | 일정 내용  |
+| author     | String        | O  | 작성자명   |
+| createdAt  | LocalDateTime | O  | 생성한 날짜 |
+| updatedAt  | LocalDateTime | O  | 수정한 날짜 |
 
 <br>
 
@@ -239,9 +218,9 @@ GET /api/schedules/1
 
 ## 🔹 Path Variable
 
-| 변수명 | 타입   | 설명     |
-|-----|------|--------|
-| id  | Long | 고유 식별자 |
+| 변수명        | 타입   | 설명     |
+|------------|------|--------|
+| scheduleId | Long | 고유 식별자 |
 
 <br>
 
@@ -277,7 +256,7 @@ Content-Type: application/json
 
 ```json
 {
-  "id": 1,
+  "scheduleId": 1,
   "title": "오후 스크럼",
   "contents": "오후 7시 30분에 zep으로 오후 스크럼 진행",
   "author": "김유하",
@@ -286,20 +265,28 @@ Content-Type: application/json
 }
 ```
 
-| 필드명       | 타입            | 필수 | 설명     |
-|-----------|---------------|----|--------|
-| id        | Long          | O  | 고유 식별자 |
-| title     | String        | O  | 일정 제목  |
-| contents  | String        | O  | 일정 내용  |
-| author    | String        | O  | 작성자명   |
-| createdAt | LocalDateTime | O  | 생성한 날짜 |
-| updatedAt | LocalDateTime | O  | 수정한 날짜 |
+| 필드명        | 타입            | 필수 | 설명     |
+|------------|---------------|----|--------|
+| scheduleId | Long          | O  | 고유 식별자 |
+| title      | String        | O  | 일정 제목  |
+| contents   | String        | O  | 일정 내용  |
+| author     | String        | O  | 작성자명   |
+| createdAt  | LocalDateTime | O  | 생성한 날짜 |
+| updatedAt  | LocalDateTime | O  | 수정한 날짜 |
 
 ### ❌ 실패 - 400 Bad Request
 
 ```
 {
-    "message": "필수 입력값이 입력되지 않았습니다!"
+    "message": "비밀번호가 일치하지 않습니다!"
+}
+```
+
+### ❌ 실패 - 404 Not Found
+
+```
+{
+    "message": "일정을 찾을 수 없습니다!"
 }
 ```
 
@@ -317,9 +304,9 @@ Content-Type: application/json
 
 ## 🔹 Path Variable
 
-| 변수명 | 타입   | 설명     |
-|-----|------|--------|
-| id  | Long | 고유 식별자 |
+| 변수명        | 타입   | 설명     |
+|------------|------|--------|
+| scheduleId | Long | 고유 식별자 |
 
 <br>
 
