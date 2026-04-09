@@ -73,7 +73,7 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new IllegalArgumentException("해당 댓글을 찾을 수 없습니다.")
         );
-        if(!comment.getPassword().equals(request.getPassword())){
+        if (!comment.getPassword().equals(request.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
         }
 
@@ -86,6 +86,19 @@ public class CommentService {
                 comment.getCreatedAt(),
                 comment.getUpdatedAt()
         );
+    }
+
+    @Transactional
+    public void deleteComment(long scheduleId, long commentId, DeleteCommentRequest request) {
+        // 일정 id가 존재하지 않는 경우
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
+                () -> new IllegalArgumentException("해당 일정을 찾을 수 없습니다.")
+        );
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                () -> new IllegalArgumentException("해당 댓글을 찾을 수 없습니다.")
+        );
+        commentRepository.delete(comment);
+
     }
 
 

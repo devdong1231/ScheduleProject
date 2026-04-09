@@ -21,15 +21,21 @@ public class CommentController {
     }
 
     @GetMapping("schedules/{scheduleId}/comments")
-    public ResponseEntity<List<GetOneCommentResponse>> getAllComment(@PathVariable Long scheduleId){
+    public ResponseEntity<List<GetOneCommentResponse>> getAllComment(@PathVariable Long scheduleId) {
         List<GetOneCommentResponse> results = commentService.getAll(scheduleId);
         return ResponseEntity.status(HttpStatus.OK).body(results);
     }
 
     @PostMapping("schedules/{scheduleId}/comments/{commentId}")
-    public ResponseEntity<UpdateCommentResponse> updateComment(@PathVariable Long scheduleId, @PathVariable Long commentId, @RequestBody UpdateCommentRequest request){
+    public ResponseEntity<UpdateCommentResponse> updateComment(@PathVariable Long scheduleId, @PathVariable Long commentId, @RequestBody UpdateCommentRequest request) {
         UpdateCommentResponse result = commentService.updateComment(scheduleId, commentId, request);
         return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @DeleteMapping("schedules/{scheduleId}/comments/{commentId}")
+    public ResponseEntity<Void> deleteComment(@PathVariable Long scheduleId, @PathVariable Long commentId, @RequestBody DeleteCommentRequest request) {
+        commentService.deleteComment(scheduleId, commentId, request);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 
