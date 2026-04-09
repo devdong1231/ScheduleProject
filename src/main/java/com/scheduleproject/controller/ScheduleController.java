@@ -26,15 +26,21 @@ public class ScheduleController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @GetMapping("schedules/{author}")
-    public ResponseEntity<List<GetOneScheduleResponse>> getAllSchedule(@PathVariable String author) {
+    @GetMapping("/schedules")
+    public ResponseEntity<List<GetOneScheduleResponse>> getAllSchedule(@RequestParam(required = false) String author) {
         List<GetOneScheduleResponse> result = scheduleService.getAll(author);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @PatchMapping("schedules/{scheduleId}")
+    @PatchMapping("/schedules/{scheduleId}")
     public ResponseEntity<UpdateScheduleResponse> updateSchedule(@PathVariable Long scheduleId, @RequestBody UpdateScheduleRequest request) {
         UpdateScheduleResponse result = scheduleService.update(scheduleId, request);
         return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @DeleteMapping("/schedules/{scheduleId}")
+    public ResponseEntity<Void> deleteSchedule(@PathVariable Long scheduleId, @RequestBody DeleteScheduleRequest request) {
+        scheduleService.delete(scheduleId, request);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

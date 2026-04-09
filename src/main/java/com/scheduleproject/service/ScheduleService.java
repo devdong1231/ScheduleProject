@@ -90,4 +90,17 @@ public class ScheduleService {
                 schedule.getUpdatedAt()
         );
     }
+
+    @Transactional
+    public void delete(Long scheduleId, DeleteScheduleRequest request) {
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
+                () -> new IllegalStateException("일정을 찾을 수 없습니다!")
+        );
+        // 비밀번호가 일치 하지 않는 경우
+        if (!request.getPassword().equals(schedule.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다!");
+        } else {
+            scheduleRepository.deleteById(scheduleId);
+        }
+    }
 }
