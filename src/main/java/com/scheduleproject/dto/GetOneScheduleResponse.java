@@ -1,7 +1,10 @@
 package com.scheduleproject.dto;
 
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 
+@Getter
 public class GetOneScheduleResponse {
 
     private final Long scheduleId;

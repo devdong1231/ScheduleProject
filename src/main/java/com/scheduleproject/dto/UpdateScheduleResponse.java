@@ -1,7 +1,10 @@
 package com.scheduleproject.dto;
 
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 
+@Getter
 public class UpdateScheduleResponse {
     private final Long scheduleId;
     private final String title;

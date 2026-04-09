@@ -48,6 +48,7 @@ public class ScheduleService {
     @Transactional(readOnly = true)
     public List<GetOneScheduleResponse> getAll(String author) {
         List<Schedule> schedules;
+        // 작성자 입력이 있는 지 확인
         if (author == null || author.isBlank()) {
             schedules = scheduleRepository.findAllByOrderByUpdatedAtDesc();
         } else {
