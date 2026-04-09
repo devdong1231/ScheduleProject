@@ -2,7 +2,8 @@ package com.scheduleproject.dto;
 
 import java.time.LocalDateTime;
 
-public class UpdateScheduleResponse {
+public class GetOneScheduleResponse {
+
     private final Long scheduleId;
     private final String title;
     private final String contents;
@@ -10,7 +11,7 @@ public class UpdateScheduleResponse {
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 
-    public UpdateScheduleResponse(Long scheduleId, String title, String contents, String author, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public GetOneScheduleResponse(Long scheduleId, String title, String contents, String author, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.scheduleId = scheduleId;
         this.title = title;
         this.contents = contents;
