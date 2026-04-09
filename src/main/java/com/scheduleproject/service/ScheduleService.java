@@ -21,7 +21,7 @@ public class ScheduleService {
         scheduleRepository.save(schedule);
 
         return new CreateScheduleResponse(
-                schedule.getId(),
+                schedule.getScheduleId(),
                 schedule.getTitle(),
                 schedule.getContents(),
                 schedule.getAuthor(),
@@ -36,7 +36,7 @@ public class ScheduleService {
         );
 
         return new GetOneScheduleResponse(
-                schedule.getId(),
+                schedule.getScheduleId(),
                 schedule.getTitle(),
                 schedule.getContents(),
                 schedule.getAuthor(),
@@ -56,7 +56,7 @@ public class ScheduleService {
         List<GetOneScheduleResponse> dtos = new ArrayList<>();
         for (Schedule schedule : schedules) {
             GetOneScheduleResponse dto = new GetOneScheduleResponse(
-                    schedule.getId(),
+                    schedule.getScheduleId(),
                     schedule.getTitle(),
                     schedule.getContents(),
                     schedule.getAuthor(),
@@ -81,7 +81,7 @@ public class ScheduleService {
                     request.getAuthor());
 
         return new UpdateScheduleResponse(
-                schedule.getId(),
+                schedule.getScheduleId(),
                 schedule.getTitle(),
                 schedule.getContents(),
                 schedule.getAuthor(),

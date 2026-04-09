@@ -377,7 +377,7 @@ Content-Type: application/json
 ## 🔹 기본 정보
 
 - **Method** : `POST`
-- **URL** : `/api/schedules/{scheduleId}`
+- **URL** : `/api/schedules/{scheduleId}/comments`
 - **설명** : 새로운 댓글을 등록
 
 <br>
@@ -449,7 +449,7 @@ Content-Type: application/json
 ## 🔹 기본 정보
 
 - **Method** : `GET`
-- **URL** : `/api/schedules`
+- **URL** : `/api/schedules/{scheduleId}/comments`
 - **설명** : 전체 일정 조회
 
 <br>
@@ -502,7 +502,7 @@ Content-Type: application/json
 ## 🔹 기본 정보
 
 - **Method** : `PATCH`
-- **URL** : `/api/schedules/{scheduleId}/{commentId}`
+- **URL** : `/api/schedules/{scheduleId}/comments/{commentsId}`
 - **설명** : 선택한 댓글의 제목과 작성자명만 수정 / 수정 시 비밀번호 필요
 
 <br>
@@ -586,7 +586,7 @@ Content-Type: application/json
 ## 🔹 기본 정보
 
 - **Method** : `DELETE`
-- **URL** : `/api/schedules/{scheduleId}/{commentId}`
+- **URL** : `/api/schedules/{scheduleId}/comments/{commentId}`
 - **설명** : 선택한 댓글을 삭제 / 삭제 시 비밀번호 필요
 
 <br>

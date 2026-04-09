@@ -21,10 +21,15 @@ public class Comment extends BaseEntity {
     @Column(length = 255, nullable = false)
     private String password;
 
-    public Comment(String comments, String author, String password) {
+    @ManyToOne
+    @JoinColumn(name = "schedule_id")
+    private Schedule schedule;
+
+    public Comment(String comments, String author, String password, Schedule schedule) {
         this.comments = comments;
         this.author = author;
         this.password = password;
+        this.schedule = schedule;
     }
 
     public void update(String comments, String author) {
