@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -32,6 +33,7 @@ public class Schedule extends BaseEntity {
         this.author = author;
         this.contents = contents;
         this.password = password;
+        comments = new ArrayList<>();
     }
 
     public void update(String title, String author) {
