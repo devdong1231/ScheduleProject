@@ -29,4 +29,41 @@ public class ScheduleService {
                 savedSchedule.getCreatedAt(),
                 savedSchedule.getUpdatedAt());
     }
+
+    @Transactional(readOnly = true)
+    public GetOneScheduleResponse getOne(Long scheduleId) {
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
+                () -> new IllegalStateException("해당하는 일정이 없습니다.")
+        );
+
+        return new GetOneScheduleResponse(
+                schedule.getId(),
+                schedule.getTitle(),
+                schedule.getContents(),
+                schedule.getAuthor(),
+                schedule.getCreatedAt(),
+                schedule.getUpdatedAt());
+    }
+
+    @Transactional(readOnly = true)
+    public List<GetOneScheduleResponse> getAll(String author) {
+        List<Schedule> schedules;
+        if (author == null || author.isBlank()) {
+            schedules = scheduleRepository.findAllByOrderByUpdatedAtDesc();
+        } else {
+            schedules = scheduleRepository.findByAuthorOrderByUpdatedAtDesc(author);
+        }
+        List<GetOneScheduleResponse> dtos = new ArrayList<>();
+        for (Schedule schedule : schedules) {
+            GetOneScheduleResponse dto = new GetOneScheduleResponse(
+                    schedule.getId(),
+                    schedule.getTitle(),
+                    schedule.getContents(),
+                    schedule.getAuthor(),
+                    schedule.getCreatedAt(),
+                    schedule.getUpdatedAt());
+            dtos.add(dto);
+        }
+        return dtos;
+    }
 }
