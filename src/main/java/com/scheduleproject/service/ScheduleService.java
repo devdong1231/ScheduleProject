@@ -19,15 +19,14 @@ public class ScheduleService {
     public CreateScheduleResponse save(CreateScheduleRequest request) {
         Schedule schedule = new Schedule(request.getTitle(), request.getAuthor(), request.getContent(), request.getPassword());
         scheduleRepository.save(schedule);
-        Schedule savedSchedule = scheduleRepository.save(schedule);
 
         return new CreateScheduleResponse(
-                savedSchedule.getId(),
-                savedSchedule.getTitle(),
-                savedSchedule.getContents(),
-                savedSchedule.getAuthor(),
-                savedSchedule.getCreatedAt(),
-                savedSchedule.getUpdatedAt());
+                schedule.getId(),
+                schedule.getTitle(),
+                schedule.getContents(),
+                schedule.getAuthor(),
+                schedule.getCreatedAt(),
+                schedule.getUpdatedAt());
     }
 
     @Transactional(readOnly = true)
