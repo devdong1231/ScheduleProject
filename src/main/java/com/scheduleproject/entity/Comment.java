@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "comments")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment extends BaseEntity {
-    // 댓글 내용, 작성자명, 비밀번호, 작성/수정일, 일정 고유식별자
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;

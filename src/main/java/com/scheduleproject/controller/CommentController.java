@@ -2,15 +2,14 @@ package com.scheduleproject.controller;
 
 import com.scheduleproject.dto.CreateCommentRequest;
 import com.scheduleproject.dto.CreateCommentResponse;
-import com.scheduleproject.dto.CreateScheduleResponse;
+import com.scheduleproject.dto.GetOneCommentResponse;
 import com.scheduleproject.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,6 +21,14 @@ public class CommentController {
         CreateCommentResponse result = commentService.save(scheduleId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
+
+    @GetMapping("schedules/{scheduleId}/comments")
+    public ResponseEntity<List<GetOneCommentResponse>> getAllComment(@PathVariable Long scheduleId){
+        List<GetOneCommentResponse> results = commentService.getAll(scheduleId);
+        return ResponseEntity.status(HttpStatus.OK).body(results);
+    }
+
+
 
 
 }

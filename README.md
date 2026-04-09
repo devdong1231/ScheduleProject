@@ -19,6 +19,9 @@
 
 # 일정 생성 API
 
+<details>
+<summary>명세서</summary>
+
 ## 🔹 기본 정보
 
 - **Method** : `POST`
@@ -91,9 +94,14 @@ Content-Type: application/json
 }
 ```
 
-<br>
+</details>
+
+---
 
 # 일정 전체 조회 API
+
+<details>
+<summary>명세서</summary>
 
 ## 🔹 기본 정보
 
@@ -162,9 +170,14 @@ GET /api/schedules?author=홍길동
 }
 ```
 
-<br>
+</details>
+
+---
 
 # 일정 단건 조회 API
+
+<details>
+<summary>명세서</summary>
 
 ## 🔹 기본 정보
 
@@ -224,7 +237,14 @@ GET /api/schedules/1
 
 <br>
 
+</details>
+
+---
+
 # 일정 수정 API
+
+<details>
+<summary>명세서</summary>
 
 ## 🔹 기본 정보
 
@@ -308,9 +328,14 @@ Content-Type: application/json
 }
 ```
 
-<br>
+</details>
+
+---
 
 # 일정 삭제 API
+
+<details>
+<summary>명세서</summary>
 
 ## 🔹 기본 정보
 
@@ -370,9 +395,14 @@ Content-Type: application/json
 }
 ```
 
+</details>
+
 ---
 
 # 댓글 생성 API
+
+<details>
+<summary>명세서</summary>
 
 ## 🔹 기본 정보
 
@@ -442,9 +472,14 @@ Content-Type: application/json
 }
 ```
 
-<br>
+</details>
+
+---
 
 # 댓글 전체 조회 API
+
+<details>
+<summary>명세서</summary>
 
 ## 🔹 기본 정보
 
@@ -453,6 +488,7 @@ Content-Type: application/json
 - **설명** : 전체 일정 조회
 
 <br>
+
 
 ## 🔹 Response
 
@@ -495,9 +531,14 @@ Content-Type: application/json
 }
 ```
 
-<br>
+</details>
+
+---
 
 # 댓글 수정 API
+
+<details>
+<summary>명세서</summary>
 
 ## 🔹 기본 정보
 
@@ -579,9 +620,14 @@ Content-Type: application/json
 }
 ```
 
-<br>
+</details>
+
+---
 
 # 댓글 삭제 API
+
+<details>
+<summary>명세서</summary>
 
 ## 🔹 기본 정보
 
@@ -640,3 +686,5 @@ Content-Type: application/json
     "message": "해당 일정을 찾을 수 없습니다."
 }
 ```
+
+</details>

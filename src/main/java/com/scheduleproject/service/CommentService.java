@@ -3,7 +3,7 @@ package com.scheduleproject.service;
 
 import com.scheduleproject.dto.CreateCommentRequest;
 import com.scheduleproject.dto.CreateCommentResponse;
-import com.scheduleproject.dto.CreateScheduleRequest;
+import com.scheduleproject.dto.GetOneCommentResponse;
 import com.scheduleproject.entity.Comment;
 import com.scheduleproject.entity.Schedule;
 import com.scheduleproject.repository.CommentRepository;
@@ -11,6 +11,9 @@ import com.scheduleproject.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +29,7 @@ public class CommentService {
         );
         // comment가 10개 초과인 경우
         long count = commentRepository.count();
-        if(count>10){
+        if (count > 10) {
             throw new IllegalArgumentException("댓글은 최대 10개까지 작성할 수 있습니다.");
         }
 
@@ -42,5 +45,28 @@ public class CommentService {
                 comment.getUpdatedAt()
         );
     }
+
+    @Transactional
+    public List<GetOneCommentResponse> getAll(Long scheduleId) {
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
+                () -> new IllegalArgumentException("해당 일정을 찾을 수 없습니다.")
+        );
+        List<Comment> comments = commentRepository.findAll();
+        List<GetOneCommentResponse> dtos = new ArrayList<>();
+        for (Comment comment: comments){
+            GetOneCommentResponse dto = new GetOneCommentResponse(
+                    comment.getCommentId(),
+                    comment.getComments(),
+                    comment.getAuthor(),
+                    comment.getCreatedAt(),
+                    comment.getUpdatedAt()
+            );
+            dtos.add(dto);
+        }
+        return dtos;
+    }
+
+
+
 
 }
