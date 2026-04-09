@@ -33,7 +33,7 @@ public class ScheduleService {
     @Transactional(readOnly = true)
     public GetOneScheduleResponse getOne(Long scheduleId) {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
-                () -> new IllegalStateException("해당하는 일정이 없습니다.")
+                () -> new IllegalStateException("해당 일정을 찾을 수 없습니다!")
         );
 
         return new GetOneScheduleResponse(
@@ -65,5 +65,29 @@ public class ScheduleService {
             dtos.add(dto);
         }
         return dtos;
+    }
+
+    @Transactional
+    public UpdateScheduleResponse update(Long scheduleId, UpdateScheduleRequest request) {
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
+                () -> new IllegalStateException("일정을 찾을 수 없습니다!")
+        );
+
+        if (!request.getPassword().equals(schedule.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다!");
+        } else
+            schedule.update(
+                    request.getTitle(),
+                    request.getAuthor(),
+                    request.getPassword());
+
+        return new UpdateScheduleResponse(
+                schedule.getId(),
+                schedule.getTitle(),
+                schedule.getContents(),
+                schedule.getAuthor(),
+                schedule.getCreatedAt(),
+                schedule.getUpdatedAt()
+        );
     }
 }
