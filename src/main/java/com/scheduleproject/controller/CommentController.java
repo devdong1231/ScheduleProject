@@ -1,8 +1,6 @@
 package com.scheduleproject.controller;
 
-import com.scheduleproject.dto.CreateCommentRequest;
-import com.scheduleproject.dto.CreateCommentResponse;
-import com.scheduleproject.dto.GetOneCommentResponse;
+import com.scheduleproject.dto.*;
 import com.scheduleproject.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,7 +26,11 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).body(results);
     }
 
-
+    @PostMapping("schedules/{scheduleId}/comments/{commentId}")
+    public ResponseEntity<UpdateCommentResponse> updateComment(@PathVariable Long scheduleId, @PathVariable Long commentId, @RequestBody UpdateCommentRequest request){
+        UpdateCommentResponse result = commentService.updateComment(scheduleId, commentId, request);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
 
 
 }
