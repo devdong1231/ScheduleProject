@@ -79,8 +79,7 @@ public class ScheduleService {
         } else
             schedule.update(
                     request.getTitle(),
-                    request.getAuthor(),
-                    request.getPassword());
+                    request.getAuthor());
 
         return new UpdateScheduleResponse(
                 schedule.getId(),

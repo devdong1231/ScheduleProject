@@ -17,6 +17,8 @@
 
 </details>
 
+# 일정 생성 API
+
 ## 🔹 기본 정보
 
 - **Method** : `POST`
@@ -323,6 +325,277 @@ Content-Type: application/json
 | 변수명        | 타입   | 설명     |
 |------------|------|--------|
 | scheduleId | Long | 고유 식별자 |
+
+<br>
+
+## 🔹 Request
+
+### Headers
+
+```
+Content-Type: application/json
+```
+
+### Body
+
+```json
+{
+  "password": "asdf1234"
+}
+```
+
+| 필드명      | 타입     | 필수 | 설명   |
+|----------|--------|----|------|
+| password | String | O  | 비밀번호 |
+
+<br>
+
+## 🔹 Response
+
+### ✅ 성공 - 204 No Content
+
+### ❌ 실패 - 400 Bad Request
+
+```
+{
+    "message": "비밀번호가 일치하지 않습니다."
+}
+```
+
+### ❌ 실패 - 404 Not Found
+
+```
+{
+    "message": "해당 일정을 찾을 수 없습니다."
+}
+```
+
+---
+
+# 댓글 생성 API
+
+## 🔹 기본 정보
+
+- **Method** : `POST`
+- **URL** : `/api/schedules/{scheduleId}`
+- **설명** : 새로운 댓글을 등록
+
+<br>
+
+## 🔹 Request
+
+### Headers
+
+```
+Content-Type: application/json
+```
+
+<br>
+
+### Body
+
+```json
+{
+  "comments": "우와 너무 재밌어 보여요",
+  "author": "김유하",
+  "password": "asdf1234"
+}
+```
+
+| 필드명      | 타입     | 필수 | 설명             |
+|----------|--------|----|----------------|
+| comment  | String | O  | 댓글 내용          |
+| author   | String | O  | 작성자명           |
+| password | String | O  | 비밀번호(수정/삭제 검증) |
+
+<br>
+
+## 🔹 Response
+
+### ✅ 성공 - 201 Created
+
+```json
+{
+  "commentId": 1,
+  "comment": "우와 너무 재밌어 보여요",
+  "author": "김유하",
+  "createdAt": "2026-04-18T16:30",
+  "updatedAt": "2026-04-18T16:30"
+}
+```
+
+| 필드명       | 타입            | 필수 | 설명     |
+|-----------|---------------|----|--------|
+| commentId | Long          | O  | 고유 식별자 |
+| comment   | String        | O  | 댓글 내용  |
+| author    | String        | O  | 작성자명   |
+| createdAt | LocalDateTime | O  | 생성한 날짜 |
+| updatedAt | LocalDateTime | O  | 수정한 날짜 |
+
+<br>
+
+### ❌ 실패 - 400 Bad Request
+
+```json
+{
+  "message": "필수 입력값이 입력되지 않았습니다!"
+}
+```
+
+<br>
+
+# 댓글 전체 조회 API
+
+## 🔹 기본 정보
+
+- **Method** : `GET`
+- **URL** : `/api/schedules`
+- **설명** : 전체 일정 조회
+
+<br>
+
+## 🔹 Response
+
+### Body
+
+### ✅ 성공 - 200 OK
+
+```json
+[
+  {
+    "commentId": 2,
+    "comment": "우와 너무 좋아보여요",
+    "author": "김유하",
+    "createdAt": "2026-04-08T08:40",
+    "updatedAt": "2026-04-08T08:40"
+  },
+  {
+    "commentId": 1,
+    "comment": "짱짱",
+    "author": "김유하",
+    "createdAt": "2026-04-08T08:40",
+    "updatedAt": "2026-04-08T16:40"
+  }
+]
+```
+
+| 필드명       | 타입            | 필수 | 설명     |
+|-----------|---------------|----|--------|
+| commentId | Long          | O  | 고유 식별자 |
+| comment   | String        | O  | 일정 내용  |
+| author    | String        | O  | 작성자명   |
+| createdAt | LocalDateTime | O  | 생성한 날짜 |
+| updatedAt | LocalDateTime | O  | 수정한 날짜 |
+
+### ❌ 실패 - 500 Internal Server Error
+
+```json
+{
+  "message": "서버 오류가 발생했습니다."
+}
+```
+
+<br>
+
+# 댓글 수정 API
+
+## 🔹 기본 정보
+
+- **Method** : `PATCH`
+- **URL** : `/api/schedules/{scheduleId}/{commentId}`
+- **설명** : 선택한 댓글의 제목과 작성자명만 수정 / 수정 시 비밀번호 필요
+
+<br>
+
+## 🔹 Path Variable
+
+| 변수명       | 타입   | 설명     |
+|-----------|------|--------|
+| commentId | Long | 고유 식별자 |
+
+<br>
+
+## 🔹 Request
+
+### Headers
+
+```
+Content-Type: application/json
+```
+
+### Body
+
+```json
+{
+  "comment": "짱짱굿",
+  "author": "김유하",
+  "password": "asdf1234"
+}
+```
+
+| 필드명      | 타입     | 필수 | 설명    |
+|----------|--------|----|-------|
+| comment  | String | O  | 댓글 내용 |
+| author   | String | O  | 작성자명  |
+| password | String | O  | 비밀번호  |
+
+<br>
+
+## 🔹 Response
+
+### ✅ 성공 - 200 OK
+
+```json
+{
+  "commentId": 1,
+  "comment": "짱짱굿",
+  "author": "김유하",
+  "createdAt": "2026-04-18T16:30",
+  "updatedAt": "2026-04-18T17:30"
+}
+```
+
+| 필드명       | 타입            | 필수 | 설명     |
+|-----------|---------------|----|--------|
+| commentId | Long          | O  | 고유 식별자 |
+| comment   | String        | O  | 댓글 내용  |
+| author    | String        | O  | 작성자명   |
+| createdAt | LocalDateTime | O  | 생성한 날짜 |
+| updatedAt | LocalDateTime | O  | 수정한 날짜 |
+
+### ❌ 실패 - 400 Bad Request
+
+```
+{
+    "message": "비밀번호가 일치하지 않습니다!"
+}
+```
+
+### ❌ 실패 - 404 Not Found
+
+```
+{
+    "message": "일정을 찾을 수 없습니다!"
+}
+```
+
+<br>
+
+# 댓글 삭제 API
+
+## 🔹 기본 정보
+
+- **Method** : `DELETE`
+- **URL** : `/api/schedules/{scheduleId}/{commentId}`
+- **설명** : 선택한 댓글을 삭제 / 삭제 시 비밀번호 필요
+
+<br>
+
+## 🔹 Path Variable
+
+| 변수명       | 타입   | 설명     |
+|-----------|------|--------|
+| commentId | Long | 고유 식별자 |
 
 <br>
 

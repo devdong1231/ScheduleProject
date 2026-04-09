@@ -1,41 +1,35 @@
 package com.scheduleproject.entity;
 
-
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Getter
 @Entity
-@Table(name = "schedules")
+@Table(name = "comments")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Schedule extends BaseEntity {
-
+public class Comment extends BaseEntity {
+    // 댓글 내용, 작성자명, 비밀번호, 작성/수정일, 일정 고유식별자
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(length = 255, nullable = false)
-    private String title;
+    private Long commentId;
+    @Column(nullable = false)
+    private String comments;
     @Column(length = 100, nullable = false)
     private String author;
-    @Column(nullable = false)
-    private String contents;
     @Column(length = 255, nullable = false)
     private String password;
-    private List<Comment> comments;
 
-    public Schedule(String title, String author, String contents, String password) {
-        this.title = title;
+    public Comment(String comments, String author, String password) {
+        this.comments = comments;
         this.author = author;
-        this.contents = contents;
         this.password = password;
     }
 
-    public void update(String title, String author) {
-        this.title = title;
+    public void update(String comments, String author) {
+        this.comments = comments;
         this.author = author;
     }
+
 }
