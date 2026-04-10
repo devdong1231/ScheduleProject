@@ -26,8 +26,8 @@ public class CommentService {
                 () -> new IllegalArgumentException("해당 일정을 찾을 수 없습니다.")
         );
         // comment가 10개 초과인 경우
-        long count = commentRepository.count();
-        if (count > 10) {
+        long count = commentRepository.countBySchedule(schedule);
+        if (count >= 10) {
             throw new IllegalArgumentException("댓글은 최대 10개까지 작성할 수 있습니다.");
         }
 
@@ -54,7 +54,7 @@ public class CommentService {
         for (Comment comment : comments) {
             GetOneCommentResponse dto = new GetOneCommentResponse(
                     comment.getCommentId(),
-                    comment.getComments(),
+                    comment.getComment(),
                     comment.getAuthor(),
                     comment.getCreatedAt(),
                     comment.getUpdatedAt()
@@ -81,7 +81,7 @@ public class CommentService {
 
         return new UpdateCommentResponse(
                 comment.getCommentId(),
-                comment.getComments(),
+                comment.getComment(),
                 comment.getAuthor(),
                 comment.getCreatedAt(),
                 comment.getUpdatedAt()

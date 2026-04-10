@@ -13,26 +13,26 @@ public class Comment extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
-    @Column(nullable = false)
-    private String comments;
     @Column(length = 100, nullable = false)
+    private String comment;
+    @Column(nullable = false)
     private String author;
-    @Column(length = 255, nullable = false)
+    @Column(nullable = false)
     private String password;
 
     @ManyToOne
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
 
-    public Comment(String comments, String author, String password, Schedule schedule) {
-        this.comments = comments;
+    public Comment(String comment, String author, String password, Schedule schedule) {
+        this.comment = comment;
         this.author = author;
         this.password = password;
         this.schedule = schedule;
     }
 
     public void update(String comments, String author) {
-        this.comments = comments;
+        this.comment = comments;
         this.author = author;
     }
 

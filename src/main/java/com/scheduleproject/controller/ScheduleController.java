@@ -27,8 +27,8 @@ public class ScheduleController {
     }
 
     @GetMapping("/schedules")
-    public ResponseEntity<List<GetOneScheduleResponse>> getAllSchedule(@RequestParam(required = false) String author) {
-        List<GetOneScheduleResponse> result = scheduleService.getAll(author);
+    public ResponseEntity<List<GetAllScheduleResponse>> getAllSchedule(@RequestParam(required = false) String author) {
+        List<GetAllScheduleResponse> result = scheduleService.getAll(author);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
@@ -38,6 +38,7 @@ public class ScheduleController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    // todo - 일정 삭제 시 comments 어떻게 되는지 확인하기
     @DeleteMapping("/schedules/{scheduleId}")
     public ResponseEntity<Void> deleteSchedule(@PathVariable Long scheduleId, @RequestBody DeleteScheduleRequest request) {
         scheduleService.delete(scheduleId, request);

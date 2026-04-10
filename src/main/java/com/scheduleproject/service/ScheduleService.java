@@ -2,6 +2,7 @@ package com.scheduleproject.service;
 
 import com.scheduleproject.dto.*;
 import com.scheduleproject.entity.Schedule;
+import com.scheduleproject.repository.CommentRepository;
 import com.scheduleproject.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
+    private final CommentRepository commentRepository;
 
     @Transactional
     public CreateScheduleResponse save(CreateScheduleRequest request) {
@@ -34,6 +36,15 @@ public class ScheduleService {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
                 () -> new IllegalStateException("해당 일정을 찾을 수 없습니다!")
         );
+        List<CommentResponse> commentResponses = commentRepository.findBySchedule(schedule).stream().
+                map(comment -> new CommentResponse(
+                        comment.getCommentId(),
+                        comment.getComment(),
+                        comment.getAuthor(),
+                        comment.getCreatedAt(),
+                        comment.getUpdatedAt())
+                ).toList();
+
 
         return new GetOneScheduleResponse(
                 schedule.getScheduleId(),
@@ -41,11 +52,12 @@ public class ScheduleService {
                 schedule.getContents(),
                 schedule.getAuthor(),
                 schedule.getCreatedAt(),
-                schedule.getUpdatedAt());
+                schedule.getUpdatedAt(),
+                commentResponses);
     }
 
     @Transactional(readOnly = true)
-    public List<GetOneScheduleResponse> getAll(String author) {
+    public List<GetAllScheduleResponse> getAll(String author) {
         List<Schedule> schedules;
         // 작성자 입력이 있는 지 확인
         if (author == null || author.isBlank()) {
@@ -53,15 +65,16 @@ public class ScheduleService {
         } else {
             schedules = scheduleRepository.findByAuthorOrderByUpdatedAtDesc(author);
         }
-        List<GetOneScheduleResponse> dtos = new ArrayList<>();
+        List<GetAllScheduleResponse> dtos = new ArrayList<>();
         for (Schedule schedule : schedules) {
-            GetOneScheduleResponse dto = new GetOneScheduleResponse(
+            GetAllScheduleResponse dto = new GetAllScheduleResponse(
                     schedule.getScheduleId(),
                     schedule.getTitle(),
                     schedule.getContents(),
                     schedule.getAuthor(),
                     schedule.getCreatedAt(),
-                    schedule.getUpdatedAt());
+                    schedule.getUpdatedAt()
+            );
             dtos.add(dto);
         }
         return dtos;
@@ -99,6 +112,7 @@ public class ScheduleService {
         if (!request.getPassword().equals(schedule.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다!");
         } else {
+            commentRepository.deleteBySchedule(schedule);
             scheduleRepository.deleteById(scheduleId);
         }
     }
