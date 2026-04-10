@@ -115,8 +115,6 @@ Content-Type: application/json
 
 </details>
 
----
-
 ## 일정 전체 조회 API
 
 <details>
@@ -186,8 +184,6 @@ GET /api/schedules?author=홍길동
 ```
 
 </details>
-
----
 
 ## 일정 단건 조회 API
 
@@ -267,8 +263,6 @@ GET /api/schedules/1
 <br>
 
 </details>
-
----
 
 ## 일정 수정 API
 
@@ -361,8 +355,6 @@ Content-Type: application/json
 
 </details>
 
----
-
 ## 일정 삭제 API
 
 <details>
@@ -432,7 +424,6 @@ Content-Type: application/json
 
 </details>
 
----
 
 # 댓글 CRUD
 
@@ -512,8 +503,6 @@ Content-Type: application/json
 
 </details>
 
----
-
 ## 댓글 전체 조회 API
 
 <details>
@@ -567,8 +556,6 @@ Content-Type: application/json
 ```
 
 </details>
-
----
 
 ## 댓글 수정 API
 
@@ -659,8 +646,6 @@ Content-Type: application/json
 ```
 
 </details>
-
----
 
 ## 댓글 삭제 API
 
