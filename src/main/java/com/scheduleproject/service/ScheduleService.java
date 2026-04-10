@@ -16,11 +16,13 @@ import java.util.List;
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final CommentRepository commentRepository;
+    // 400 - IllegalArgumentException
+    // 404 - IllegalStateException
 
     @Transactional
     public CreateScheduleResponse save(CreateScheduleRequest request) {
         // 400 - Bad Request 처리
-        if(request.getTitle() == null || request.getAuthor() == null || request.getContent() == null || request.getPassword() == null){
+        if (request.getTitle() == null || request.getAuthor() == null || request.getContent() == null || request.getPassword() == null) {
             throw new IllegalArgumentException("필수 입력값이 입력되지 않았습니다!");
         }
 
@@ -38,6 +40,7 @@ public class ScheduleService {
 
     @Transactional(readOnly = true)
     public GetOneScheduleResponse getOne(Long scheduleId) {
+        // 404 - Not Found 처리
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
                 () -> new IllegalStateException("해당 일정을 찾을 수 없습니다!")
         );
@@ -88,9 +91,11 @@ public class ScheduleService {
     @Transactional
     public UpdateScheduleResponse update(Long scheduleId, UpdateScheduleRequest request) {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
+                // 404 - Not Found 처리
                 () -> new IllegalStateException("일정을 찾을 수 없습니다!")
         );
 
+        // 400 - Bad Request 처리
         if (!request.getPassword().equals(schedule.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다!");
         } else
@@ -111,14 +116,15 @@ public class ScheduleService {
     @Transactional
     public void delete(Long scheduleId, DeleteScheduleRequest request) {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
+                // 404 - Not Found 처리
                 () -> new IllegalStateException("일정을 찾을 수 없습니다!")
         );
-        // 비밀번호가 일치 하지 않는 경우
+        // 400 - Bad Request 처리
         if (!request.getPassword().equals(schedule.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다!");
-        } else {
-            commentRepository.deleteBySchedule(schedule);
-            scheduleRepository.deleteById(scheduleId);
         }
+        commentRepository.deleteBySchedule(schedule);
+        scheduleRepository.deleteById(scheduleId);
+
     }
 }

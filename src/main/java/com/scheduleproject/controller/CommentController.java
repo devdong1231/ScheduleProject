@@ -15,26 +15,50 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("schedules/{scheduleId}/comments")
-    public ResponseEntity<CreateCommentResponse> createComment(@RequestBody CreateCommentRequest request, @PathVariable long scheduleId) {
-        CreateCommentResponse result = commentService.save(scheduleId, request);
+    public ResponseEntity<?> createComment(@RequestBody CreateCommentRequest request, @PathVariable long scheduleId) {
+        CreateCommentResponse result;
+        try {
+            result = commentService.save(scheduleId, request);
+        } catch (IllegalStateException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     @GetMapping("schedules/{scheduleId}/comments")
-    public ResponseEntity<List<GetOneCommentResponse>> getAllComment(@PathVariable Long scheduleId) {
-        List<GetOneCommentResponse> results = commentService.getAll(scheduleId);
+    public ResponseEntity<?> getAllComment(@PathVariable Long scheduleId) {
+        List<GetOneCommentResponse> results;
+        try {
+            results = commentService.getAll(scheduleId);
+        } catch (IllegalStateException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(results);
     }
 
     @PostMapping("schedules/{scheduleId}/comments/{commentId}")
-    public ResponseEntity<UpdateCommentResponse> updateComment(@PathVariable Long scheduleId, @PathVariable Long commentId, @RequestBody UpdateCommentRequest request) {
-        UpdateCommentResponse result = commentService.updateComment(scheduleId, commentId, request);
+    public ResponseEntity<?> updateComment(@PathVariable Long scheduleId, @PathVariable Long commentId, @RequestBody UpdateCommentRequest request) {
+        UpdateCommentResponse result;
+        try {
+            result = commentService.updateComment(scheduleId, commentId, request);
+        } catch (IllegalStateException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @DeleteMapping("schedules/{scheduleId}/comments/{commentId}")
-    public ResponseEntity<Void> deleteComment(@PathVariable Long scheduleId, @PathVariable Long commentId, @RequestBody DeleteCommentRequest request) {
-        commentService.deleteComment(scheduleId, commentId, request);
+    public ResponseEntity<?> deleteComment(@PathVariable Long scheduleId, @PathVariable Long commentId, @RequestBody DeleteCommentRequest request) {
+        try {
+            commentService.deleteComment(scheduleId, commentId, request);
+        } catch (IllegalStateException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

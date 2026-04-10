@@ -23,11 +23,13 @@ public class CommentService {
     public CreateCommentResponse save(Long scheduleId, CreateCommentRequest request) {
         // 일정 id가 존재하지 않는 경우
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
-                () -> new IllegalArgumentException("해당 일정을 찾을 수 없습니다.")
+                // 404 - Not Found 처리
+                () -> new IllegalStateException("해당 일정을 찾을 수 없습니다.")
         );
         // comment가 10개 초과인 경우
         long count = commentRepository.countBySchedule(schedule);
         if (count >= 10) {
+            // 400 - Bad Request 처리
             throw new IllegalArgumentException("댓글은 최대 10개까지 작성할 수 있습니다.");
         }
 
@@ -47,7 +49,8 @@ public class CommentService {
     @Transactional
     public List<GetOneCommentResponse> getAll(Long scheduleId) {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
-                () -> new IllegalArgumentException("해당 일정을 찾을 수 없습니다.")
+                // 404 - Not Found 처리
+                () -> new IllegalStateException("해당 일정을 찾을 수 없습니다.")
         );
         List<Comment> comments = commentRepository.findAll();
         List<GetOneCommentResponse> dtos = new ArrayList<>();
@@ -68,12 +71,15 @@ public class CommentService {
     public UpdateCommentResponse updateComment(Long scheduleId, long commentId, UpdateCommentRequest request) {
         // 일정 id가 존재하지 않는 경우
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
-                () -> new IllegalArgumentException("해당 일정을 찾을 수 없습니다.")
+                // 404 - Not Found 처리
+                () -> new IllegalStateException("해당 일정을 찾을 수 없습니다.")
         );
         Comment comment = commentRepository.findById(commentId).orElseThrow(
-                () -> new IllegalArgumentException("해당 댓글을 찾을 수 없습니다.")
+                // 404 - Not Found 처리
+                () -> new IllegalStateException("해당 댓글을 찾을 수 없습니다.")
         );
         if (!comment.getPassword().equals(request.getPassword())) {
+            // 400 - Bad Request 처리
             throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
         }
 
@@ -92,10 +98,12 @@ public class CommentService {
     public void deleteComment(long scheduleId, long commentId, DeleteCommentRequest request) {
         // 일정 id가 존재하지 않는 경우
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
-                () -> new IllegalArgumentException("해당 일정을 찾을 수 없습니다.")
+                // 404 - Not Found 처리
+                () -> new IllegalStateException("해당 일정을 찾을 수 없습니다.")
         );
         Comment comment = commentRepository.findById(commentId).orElseThrow(
-                () -> new IllegalArgumentException("해당 댓글을 찾을 수 없습니다.")
+                // 404 - Not Found 처리
+                () -> new IllegalStateException("해당 댓글을 찾을 수 없습니다.")
         );
         commentRepository.delete(comment);
 
