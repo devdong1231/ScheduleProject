@@ -32,6 +32,9 @@ public class CommentService {
             // 400 - Bad Request 처리
             throw new IllegalArgumentException("댓글은 최대 10개까지 작성할 수 있습니다.");
         }
+        if (request.getComment().length() > 100) {
+            throw new IllegalArgumentException("댓글은 100자 내로 작성해주세요!");
+        }
 
         Comment comment = new Comment(request.getComment(), request.getAuthor(), request.getPassword(), schedule);
 

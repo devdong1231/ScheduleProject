@@ -25,6 +25,12 @@ public class ScheduleService {
         if (request.getTitle() == null || request.getAuthor() == null || request.getContent() == null || request.getPassword() == null) {
             throw new IllegalArgumentException("필수 입력값이 입력되지 않았습니다!");
         }
+        if(request.getTitle().length()>30){
+            throw new IllegalArgumentException("제목은 30자 내로 작성해주세요!");
+        }
+        if(request.getContent().length()>200){
+            throw new IllegalArgumentException("내용은 200자 내로 작성해주세요!");
+        }
 
         Schedule schedule = new Schedule(request.getTitle(), request.getAuthor(), request.getContent(), request.getPassword());
         scheduleRepository.save(schedule);
