@@ -4,6 +4,7 @@ import com.scheduleproject.dto.*;
 import com.scheduleproject.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +16,14 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @PostMapping("/schedules")
-    public ResponseEntity<CreateScheduleResponse> createSchedule(@RequestBody CreateScheduleRequest request) {
-        CreateScheduleResponse result = scheduleService.save(request);
+    public ResponseEntity<?> createSchedule(@RequestBody CreateScheduleRequest request) {
+        CreateScheduleResponse result;
+        try {
+            result = scheduleService.save(request);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>("필수 입력값이 입력되지 않았습니다!", HttpStatus.BAD_REQUEST);
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
@@ -38,7 +45,7 @@ public class ScheduleController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    // todo - 일정 삭제 시 comments 어떻게 되는지 확인하기
+
     @DeleteMapping("/schedules/{scheduleId}")
     public ResponseEntity<Void> deleteSchedule(@PathVariable Long scheduleId, @RequestBody DeleteScheduleRequest request) {
         scheduleService.delete(scheduleId, request);

@@ -19,6 +19,11 @@ public class ScheduleService {
 
     @Transactional
     public CreateScheduleResponse save(CreateScheduleRequest request) {
+        // 400 - Bad Request 처리
+        if(request.getTitle() == null || request.getAuthor() == null || request.getContent() == null || request.getPassword() == null){
+            throw new IllegalArgumentException("필수 입력값이 입력되지 않았습니다!");
+        }
+
         Schedule schedule = new Schedule(request.getTitle(), request.getAuthor(), request.getContent(), request.getPassword());
         scheduleRepository.save(schedule);
 

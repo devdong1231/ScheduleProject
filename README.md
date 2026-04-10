@@ -1,26 +1,49 @@
-> # **ScheduleProject API 명세서**
+# **ScheduleProject API 명세서**
+
+# ERD 설계
 
 <details>
-<summary>ERD 설계</summary>
-![img.png](img.png)
-## schedules
+<summary>ERD</summary>
 
-| 컬럼명        | 타입           | PK | NULL | 설명             |
-|------------|--------------|----|------|----------------|
-| scheduleId | BIGINT       | O  | X    | 일정 고유 식별자      |
-| title      | VARCHAR(255) | X  | X    | 일정 제목          |
-| contents   | TEXT         | X  | X    | 일정 내용          |
-| author     | VARCHAR(100) | X  | X    | 작성자명           |
-| password   | VARCHAR(255) | X  | X    | 수정/삭제 검증용 비밀번호 |
-| createdAt  | DATETIME     | X  | X    | 작성일            |
-| updatedAt  | DATETIME     | X  | X    | 수정일            |
+## Database
+
+```mermaid
+erDiagram
+    SCHEDULES {
+        BIGINT schedule_id PK
+        VARCHAR title
+        VARCHAR contents
+        TEXT author
+        TEXT password
+        DATETIME created_at
+        DATETIME updated_at
+    }
+
+    COMMENTS {
+        BIGINT comment_id PK
+        BIGINT schedule_id FK
+        VARCHAR comment
+        TEXT author
+        TEXT password
+        DATETIME created_at
+        DATETIME updated_at
+    }
+
+    SCHEDULES ||--o{ COMMENTS: schedule_id
+```
 
 </details>
 
-# 일정 생성 API
+# 일정 CRUD
 
 <details>
-<summary>명세서</summary>
+
+<summary>일정 CRUD</summary>
+
+## 일정 생성 API
+
+<details>
+<summary>명세서 확인</summary>
 
 ## 🔹 기본 정보
 
@@ -28,13 +51,11 @@
 - **URL** : `/api/schedules`
 - **설명** : 새로운 일정을 생성
 
-<br>
-
 ## 🔹 Request
 
 ### Headers
 
-```
+```text
 Content-Type: application/json
 ```
 
@@ -62,7 +83,7 @@ Content-Type: application/json
 
 ## 🔹 Response
 
-### ✅ 성공 - 201 Created
+#### ✅ 성공 - 201 Created
 
 ```json
 {
@@ -70,8 +91,8 @@ Content-Type: application/json
   "title": "오후 스크럼",
   "contents": "오후 7시 30분에 zep으로 오후 스크럼 진행",
   "author": "김유하",
-  "createdAt": "2026-04-18T16:30",
-  "updatedAt": "2026-04-18T16:30"
+  "createdAt": "2026-04-18T16:30.96822",
+  "updatedAt": "2026-04-18T16:30.96822"
 }
 ```
 
@@ -86,19 +107,17 @@ Content-Type: application/json
 
 <br>
 
-### ❌ 실패 - 400 Bad Request
+#### ❌ 실패 - 400 Bad Request
 
-```json
-{
-  "message": "필수 입력값이 입력되지 않았습니다!"
-}
+```text
+필수 입력값이 입력되지 않았습니다!
 ```
 
 </details>
 
 ---
 
-# 일정 전체 조회 API
+## 일정 전체 조회 API
 
 <details>
 <summary>명세서</summary>
@@ -111,13 +130,13 @@ Content-Type: application/json
 
 <br>
 
-### Query Parameters
+## 🔹 Query Parameters
 
 | 파라미터명  | 타입     | 필수 | 설명      |
 |--------|--------|----|---------|
 | author | String | X  | 작성자명 필터 |
 
-## 🔹 요청 예시
+### 요청 예시
 
 ```http
 GET /api/schedules
@@ -128,9 +147,7 @@ GET /api/schedules?author=홍길동
 
 ## 🔹 Response
 
-### Body
-
-### ✅ 성공 - 200 OK
+#### ✅ 성공 - 200 OK
 
 ```json
 [
@@ -139,16 +156,16 @@ GET /api/schedules?author=홍길동
     "title": "오전 스크럼",
     "contents": "오전 10시 5분에 zep으로 오전 스크럼 진행",
     "author": "김유하",
-    "createdAt": "2026-04-08T08:40",
-    "updatedAt": "2026-04-08T08:40"
+    "createdAt": "2026-04-08T08:40.96822",
+    "updatedAt": "2026-04-08T08:40.96822"
   },
   {
     "scheduleId": 1,
     "title": "오후 스크럼",
     "contents": "오후 7시 30분에 zep으로 오후 스크럼 진행",
     "author": "김유하",
-    "createdAt": "2026-04-08T08:40",
-    "updatedAt": "2026-04-08T16:40"
+    "createdAt": "2026-04-08T08:40.96822",
+    "updatedAt": "2026-04-08T16:40.96822"
   }
 ]
 ```
@@ -162,19 +179,17 @@ GET /api/schedules?author=홍길동
 | createdAt  | LocalDateTime | O  | 생성한 날짜 |
 | updatedAt  | LocalDateTime | O  | 수정한 날짜 |
 
-### ❌ 실패 - 500 Internal Server Error
+#### ❌ 실패 - 500 Internal Server Error
 
-```json
-{
-  "message": "서버 오류가 발생했습니다."
-}
+```text
+서버 오류가 발생했습니다.
 ```
 
 </details>
 
 ---
 
-# 일정 단건 조회 API
+## 일정 단건 조회 API
 
 <details>
 <summary>명세서</summary>
@@ -187,7 +202,7 @@ GET /api/schedules?author=홍길동
 
 <br>
 
-### Path Variable
+## 🔹 Path Variable
 
 | 변수명        | 타입   | 설명     |
 |------------|------|--------|
@@ -203,7 +218,7 @@ GET /api/schedules/1
 
 ## 🔹 Response
 
-### ✅ 성공 - 200 OK
+#### ✅ 성공 - 200 OK
 
 ```json
 {
@@ -212,7 +227,23 @@ GET /api/schedules/1
   "contents": "오후 7시 30분에 zep으로 오후 스크럼 진행",
   "author": "김유하",
   "createdAt": "2026-04-18T16:30",
-  "updatedAt": "2026-04-18T16:30"
+  "updatedAt": "2026-04-18T16:30",
+  "comments": [
+    {
+      "commentId": 1,
+      "comment": "정말 좋아보여요~",
+      "author": "홍길동",
+      "createdAt": "2026-04-10T15:23:15.96822",
+      "updatedAt": "2026-04-10T15:23:15.96822"
+    },
+    {
+      "commentId": 2,
+      "comment": "짱짱~",
+      "author": "김유하",
+      "createdAt": "2026-04-10T15:23:15.96822",
+      "updatedAt": "2026-04-10T15:23:15.96822"
+    }
+  ]
 }
 ```
 
@@ -227,12 +258,10 @@ GET /api/schedules/1
 
 <br>
 
-### ❌ 실패 - 404 Not Found
+#### ❌ 실패 - 404 Not Found
 
 ```
-{
-    "message": "해당 일정을 찾을 수 없습니다!"
-}
+해당 일정을 찾을 수 없습니다!
 ```
 
 <br>
@@ -241,7 +270,7 @@ GET /api/schedules/1
 
 ---
 
-# 일정 수정 API
+## 일정 수정 API
 
 <details>
 <summary>명세서</summary>
@@ -259,6 +288,12 @@ GET /api/schedules/1
 | 변수명        | 타입   | 설명     |
 |------------|------|--------|
 | scheduleId | Long | 고유 식별자 |
+
+### 요청 예시
+
+```
+PATCH /api/schedules/1
+```
 
 <br>
 
@@ -290,7 +325,7 @@ Content-Type: application/json
 
 ## 🔹 Response
 
-### ✅ 성공 - 200 OK
+#### ✅ 성공 - 200 OK
 
 ```json
 {
@@ -298,8 +333,8 @@ Content-Type: application/json
   "title": "오후 스크럼",
   "contents": "오후 7시 30분에 zep으로 오후 스크럼 진행",
   "author": "김유하",
-  "createdAt": "2026-04-18T16:30",
-  "updatedAt": "2026-04-18T17:30"
+  "createdAt": "2026-04-18T16:30.12345",
+  "updatedAt": "2026-04-18T17:30.12345"
 }
 ```
 
@@ -312,27 +347,23 @@ Content-Type: application/json
 | createdAt  | LocalDateTime | O  | 생성한 날짜 |
 | updatedAt  | LocalDateTime | O  | 수정한 날짜 |
 
-### ❌ 실패 - 400 Bad Request
+#### ❌ 실패 - 400 Bad Request
 
 ```
-{
-    "message": "비밀번호가 일치하지 않습니다!"
-}
+비밀번호가 일치하지 않습니다!
 ```
 
-### ❌ 실패 - 404 Not Found
+#### ❌ 실패 - 404 Not Found
 
 ```
-{
-    "message": "일정을 찾을 수 없습니다!"
-}
+일정을 찾을 수 없습니다!
 ```
 
 </details>
 
 ---
 
-# 일정 삭제 API
+## 일정 삭제 API
 
 <details>
 <summary>명세서</summary>
@@ -345,11 +376,17 @@ Content-Type: application/json
 
 <br>
 
-## 🔹 Path Variable
+### 🔹 Path Variable
 
 | 변수명        | 타입   | 설명     |
 |------------|------|--------|
 | scheduleId | Long | 고유 식별자 |
+
+### 요청 예시
+
+```
+PATCH /api/schedules/1
+```
 
 <br>
 
@@ -377,29 +414,32 @@ Content-Type: application/json
 
 ## 🔹 Response
 
-### ✅ 성공 - 204 No Content
+#### ✅ 성공 - 204 No Content
 
-### ❌ 실패 - 400 Bad Request
-
-```
-{
-    "message": "비밀번호가 일치하지 않습니다."
-}
-```
-
-### ❌ 실패 - 404 Not Found
+#### ❌ 실패 - 400 Bad Request
 
 ```
-{
-    "message": "해당 일정을 찾을 수 없습니다."
-}
+비밀번호가 일치하지 않습니다!
 ```
+
+#### ❌ 실패 - 404 Not Found
+
+```
+해당 일정을 찾을 수 없습니다!
+```
+
+</details>
 
 </details>
 
 ---
 
-# 댓글 생성 API
+# 댓글 CRUD
+
+<details>
+<summary>댓글 CRUD</summary>
+
+## 댓글 생성 API
 
 <details>
 <summary>명세서</summary>
@@ -442,15 +482,15 @@ Content-Type: application/json
 
 ## 🔹 Response
 
-### ✅ 성공 - 201 Created
+#### ✅ 성공 - 201 Created
 
 ```json
 {
   "commentId": 1,
   "comment": "우와 너무 재밌어 보여요",
   "author": "김유하",
-  "createdAt": "2026-04-18T16:30",
-  "updatedAt": "2026-04-18T16:30"
+  "createdAt": "2026-04-18T16:30.12345",
+  "updatedAt": "2026-04-18T16:30.12345"
 }
 ```
 
@@ -464,19 +504,17 @@ Content-Type: application/json
 
 <br>
 
-### ❌ 실패 - 400 Bad Request
+#### ❌ 실패 - 400 Bad Request
 
-```json
-{
-  "message": "필수 입력값이 입력되지 않았습니다!"
-}
+```
+필수 입력값이 입력되지 않았습니다!
 ```
 
 </details>
 
 ---
 
-# 댓글 전체 조회 API
+## 댓글 전체 조회 API
 
 <details>
 <summary>명세서</summary>
@@ -489,12 +527,11 @@ Content-Type: application/json
 
 <br>
 
-
 ## 🔹 Response
 
 ### Body
 
-### ✅ 성공 - 200 OK
+#### ✅ 성공 - 200 OK
 
 ```json
 [
@@ -525,17 +562,15 @@ Content-Type: application/json
 
 ### ❌ 실패 - 500 Internal Server Error
 
-```json
-{
-  "message": "서버 오류가 발생했습니다."
-}
+```
+서버 오류가 발생했습니다.
 ```
 
 </details>
 
 ---
 
-# 댓글 수정 API
+## 댓글 수정 API
 
 <details>
 <summary>명세서</summary>
@@ -550,9 +585,16 @@ Content-Type: application/json
 
 ## 🔹 Path Variable
 
-| 변수명       | 타입   | 설명     |
-|-----------|------|--------|
-| commentId | Long | 고유 식별자 |
+| 변수명        | 타입   | 설명        |
+|------------|------|-----------|
+| scheduleId | Long | 일정 고유 식별자 |
+| commentId  | Long | 댓글 고유 식별자 |
+
+### 요청 예시
+
+```
+PATCH /api/schedules/1/comments/1
+```
 
 <br>
 
@@ -607,24 +649,20 @@ Content-Type: application/json
 ### ❌ 실패 - 400 Bad Request
 
 ```
-{
-    "message": "비밀번호가 일치하지 않습니다!"
-}
+비밀번호가 일치하지 않습니다!
 ```
 
 ### ❌ 실패 - 404 Not Found
 
 ```
-{
-    "message": "일정을 찾을 수 없습니다!"
-}
+일정을 찾을 수 없습니다!
 ```
 
 </details>
 
 ---
 
-# 댓글 삭제 API
+## 댓글 삭제 API
 
 <details>
 <summary>명세서</summary>
@@ -639,9 +677,16 @@ Content-Type: application/json
 
 ## 🔹 Path Variable
 
-| 변수명       | 타입   | 설명     |
-|-----------|------|--------|
-| commentId | Long | 고유 식별자 |
+| 변수명        | 타입   | 설명        |
+|------------|------|-----------|
+| scheduleId | Long | 일정 고유 식별자 |
+| commentId  | Long | 댓글 고유 식별자 |
+
+### 요청 예시
+
+```
+PATCH /api/schedules/1/comments/1
+```
 
 <br>
 
@@ -674,17 +719,15 @@ Content-Type: application/json
 ### ❌ 실패 - 400 Bad Request
 
 ```
-{
-    "message": "비밀번호가 일치하지 않습니다."
-}
+비밀번호가 일치하지 않습니다.
 ```
 
 ### ❌ 실패 - 404 Not Found
 
 ```
-{
-    "message": "해당 일정을 찾을 수 없습니다."
-}
+해당 일정을 찾을 수 없습니다.
 ```
+
+</details>
 
 </details>
