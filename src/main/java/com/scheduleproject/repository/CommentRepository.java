@@ -8,7 +8,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    long countBySchedule(Schedule schedule);
-    void deleteBySchedule(Schedule schedule);
-    List<Comment> findBySchedule(Schedule schedule);
+    long countByScheduleId(Long scheduleId);
+
+    void deleteByScheduleId(Long scheduleId);
+
+    List<Comment> findByScheduleId(Long scheduleId);
 }

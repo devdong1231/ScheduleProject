@@ -12,7 +12,7 @@ public class UpdateCommentResponse {
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 
-    public UpdateCommentResponse(Long commentId, String comment, String author, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public  UpdateCommentResponse(Long commentId, String comment, String author, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.commentId = commentId;
         this.comment = comment;
         this.author = author;

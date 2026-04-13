@@ -1,6 +1,22 @@
-# **ScheduleProject API 명세서**
+# **ScheduleProject**
 
-# ERD 설계
+<details>
+<summary>과제</summary>
+
+### 1. 3 Layer Architecture(Controller, Service, Repository)를 적절히 적용했는지 확인해 보고, 왜 이러한 구조가 필요한지 작성해 주세요.
+
+- Controller, Service, Repository를 3 Layer Architecture에 맞게 적절히 적용하였고, 역할이 섞이면 코드가 복잡해져 유지보수성이 내려가기에 3 Layer Architecture이 필요할 것 같다.
+
+### 2. @RequestParam, @PathVariable, @RequestBody가 각각 어떤 어노테이션인지, 어떤 특징을 갖고 있는지 작성해 주세요.
+- @RequestParam : 쿼리 파라미터를 변수로 전달해주는 역할 => 클라이언트가 값을 쉽게 사용할 수 있도록 해줌
+- @PathVariable : URL 경로의 일부를 변수처럼 전달해주는 역할 => 특정한 요소를 식별할 수 있도록 해줌
+- @RequestBody : 클라이언트가 보내준 json 데이터를 전달해주는 역할 => Json 데이터를 Java 객체로 변환해줌
+
+</details>
+
+#  API 명세서
+
+# 1. ERD 설계
 
 <details>
 <summary>ERD</summary>
@@ -21,7 +37,7 @@ erDiagram
 
     COMMENTS {
         BIGINT comment_id PK
-        BIGINT schedule_id FK
+        BIGINT schedule_id
         VARCHAR comment
         TEXT author
         TEXT password
@@ -34,7 +50,7 @@ erDiagram
 
 </details>
 
-# 일정 CRUD
+# 2. 일정 CRUD
 
 <details>
 
@@ -425,7 +441,7 @@ Content-Type: application/json
 </details>
 
 
-# 댓글 CRUD
+# 3. 댓글 CRUD
 
 <details>
 <summary>댓글 CRUD</summary>

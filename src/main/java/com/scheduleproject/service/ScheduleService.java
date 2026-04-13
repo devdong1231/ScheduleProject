@@ -50,7 +50,7 @@ public class ScheduleService {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
                 () -> new IllegalStateException("해당 일정을 찾을 수 없습니다!")
         );
-        List<CommentResponse> commentResponses = commentRepository.findBySchedule(schedule).stream().
+        List<CommentResponse> commentResponses = commentRepository.findByScheduleId(scheduleId).stream().
                 map(comment -> new CommentResponse(
                         comment.getCommentId(),
                         comment.getComment(),
@@ -129,7 +129,7 @@ public class ScheduleService {
         if (!request.getPassword().equals(schedule.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다!");
         }
-        commentRepository.deleteBySchedule(schedule);
+        commentRepository.deleteByScheduleId(scheduleId);
         scheduleRepository.deleteById(scheduleId);
 
     }
