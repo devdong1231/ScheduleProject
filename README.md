@@ -393,7 +393,7 @@ Content-Type: application/json
 ### 요청 예시
 
 ```
-PATCH /api/schedules/1
+Delete /api/schedules/1
 ```
 
 <br>

@@ -49,7 +49,7 @@ public class CommentService {
         );
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<GetOneCommentResponse> getAll(Long scheduleId) {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
                 // 404 - Not Found 처리
